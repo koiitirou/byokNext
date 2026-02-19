@@ -78,7 +78,7 @@ export default function Home() {
                 // Save audio to PC if directory is set
                 if (dirHandleRef.current) {
                     try {
-                        const perm = await dirHandleRef.current.requestPermission({ mode: "readwrite" });
+                        const perm = await (dirHandleRef.current as any).requestPermission({ mode: "readwrite" });
                         if (perm === "granted") {
                             const filename = generateFilename();
                             await saveAudioToDirectory(dirHandleRef.current, blob, filename);
