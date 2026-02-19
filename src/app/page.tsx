@@ -28,6 +28,7 @@ export default function Home() {
     const recorderRef = useRef<AudioRecorder | null>(null);
     const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
     const dirHandleRef = useRef<FileSystemDirectoryHandle | null>(null);
+    const fileInputRef = useRef<HTMLInputElement | null>(null);
 
     // Load saved directory handle and settings on mount
     useEffect(() => {
@@ -139,6 +140,46 @@ export default function Home() {
         }
     };
 
+    const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+        // Reset input so same file can be re-selected
+        e.target.value = "";
+
+        setResult("");
+        setError("");
+        setStage("processing");
+
+        try {
+            // Read file as base64
+            const arrayBuffer = await file.arrayBuffer();
+            const bytes = new Uint8Array(arrayBuffer);
+            let binary = "";
+            for (const byte of bytes) {
+                binary += String.fromCharCode(byte);
+            }
+            const base64 = btoa(binary);
+            const mimeType = file.type || "audio/webm";
+
+            // Auth + Vertex AI
+            const settings = getSettings();
+            const keyHandle = await loadKeyFileHandle();
+            if (!keyHandle) {
+                throw new Error("key.json が設定されていません。設定ページでサービスアカウントキーを選択してください。");
+            }
+            const saKey = await readKeyFile(keyHandle);
+            const accessToken = await getAccessToken(saKey);
+
+            const summary = await transcribeAndSummarize(base64, mimeType, settings, accessToken, saKey.project_id);
+            addHistory(summary);
+            setResult(summary);
+            setStage("done");
+        } catch (err) {
+            setError(err instanceof Error ? err.message : "エラーが発生しました");
+            setStage("error");
+        }
+    };
+
     return (
         <div className={styles.container}>
             {/* Header */}
@@ -152,6 +193,9 @@ export default function Home() {
                 <div className={styles.headerRight}>
                     <Link href="/history" className={styles.iconBtn} title="履歴">
                         📋
+                    </Link>
+                    <Link href="/community" className={styles.iconBtn} title="コミュニティ">
+                        🌐
                     </Link>
                     <Link href="/manual" className={styles.iconBtn} title="マニュアル">
                         📖
@@ -215,6 +259,23 @@ export default function Home() {
                     {stage === "done" && "完了 — タップで新しい録音"}
                     {stage === "error" && ""}
                 </p>
+
+                {/* File upload for testing */}
+                <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="audio/*"
+                    style={{ display: "none" }}
+                    onChange={handleFileUpload}
+                />
+                {stage !== "recording" && stage !== "processing" && (
+                    <button
+                        className={styles.uploadBtn}
+                        onClick={() => fileInputRef.current?.click()}
+                    >
+                        📂 既存の録音ファイルで生成
+                    </button>
+                )}
 
                 {/* Processing */}
                 {stage === "processing" && (

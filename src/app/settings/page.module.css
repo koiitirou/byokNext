@@ -224,6 +224,33 @@
     color: var(--danger);
 }
 
+.promptActions {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+
+.cloudSaveBtn {
+    padding: 4px 10px;
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 0.75rem;
+    color: var(--primary);
+    transition: all var(--transition);
+}
+
+.cloudSaveBtn:hover:not(:disabled) {
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
+}
+
+.cloudSaveBtn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
 /* Add prompt button */
 .addPromptBtn {
     padding: 10px 14px;

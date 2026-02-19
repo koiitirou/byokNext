@@ -246,6 +246,23 @@
     width: 100%;
 }
 
+/* Upload button */
+.uploadBtn {
+    padding: 10px 20px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    transition: all var(--transition);
+    cursor: pointer;
+}
+
+.uploadBtn:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
 /* Footer Links */
 .footerLinks {
     display: flex;

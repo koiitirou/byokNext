@@ -1,0 +1,206 @@
+.container {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 24px 16px;
+    min-height: 100vh;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.backBtn {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 8px 12px;
+    font-size: 1rem;
+    color: var(--text-muted);
+    transition: all var(--transition);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+.backBtn:hover {
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
+}
+
+.pageTitle {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+}
+
+.subtitle {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    margin: 0 0 24px 0;
+}
+
+/* Loading */
+.loadingArea {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 48px 0;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+.spinner {
+    width: 32px;
+    height: 32px;
+    border: 3px solid var(--border);
+    border-top-color: var(--primary);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.error {
+    padding: 12px 16px;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: var(--radius);
+    color: var(--danger);
+    font-size: 0.85rem;
+    margin-bottom: 16px;
+}
+
+.empty {
+    text-align: center;
+    padding: 48px 16px;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+/* Prompt list */
+.promptList {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: border-color var(--transition);
+}
+
+.card:hover {
+    border-color: var(--primary);
+}
+
+.cardHeader {
+    padding: 14px 16px;
+}
+
+.cardTitle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    margin-bottom: 6px;
+}
+
+.promptName {
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.expandIcon {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+}
+
+.cardMeta {
+    display: flex;
+    gap: 12px;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.author {
+    color: var(--text-muted);
+}
+
+.date {
+    color: var(--text-muted);
+}
+
+.promptPreview {
+    padding: 12px 16px;
+    background: var(--bg);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    font-size: 0.78rem;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    color: var(--text-muted);
+    max-height: 250px;
+    overflow-y: auto;
+    margin: 0;
+    font-family: inherit;
+}
+
+.cardActions {
+    display: flex;
+    gap: 8px;
+    padding: 10px 16px;
+    border-top: 1px solid var(--border);
+}
+
+.likeBtn {
+    padding: 6px 12px;
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    transition: all var(--transition);
+    cursor: pointer;
+}
+
+.likeBtn:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.likeBtn.liked {
+    background: rgba(var(--primary-rgb, 76, 175, 80), 0.1);
+    border-color: var(--primary);
+    color: var(--primary);
+    font-weight: 500;
+}
+
+.copyBtn {
+    padding: 6px 12px;
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    transition: all var(--transition);
+    cursor: pointer;
+    margin-left: auto;
+}
+
+.copyBtn:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}

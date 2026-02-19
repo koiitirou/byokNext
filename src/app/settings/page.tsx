@@ -19,6 +19,7 @@ import {
     readKeyFile,
 } from "@/lib/auth";
 import { getDefaultPromptText } from "@/lib/vertexai";
+import { savePromptToCloud } from "@/lib/gcs";
 import styles from "./page.module.css";
 
 const REGIONS = [
@@ -44,6 +45,8 @@ export default function SettingsPage() {
     const [showDefaultPrompt, setShowDefaultPrompt] = useState(false);
     const [keyFileName, setKeyFileName] = useState<string>("");
     const [keyStatus, setKeyStatus] = useState<string>("");
+    const [cloudSaving, setCloudSaving] = useState<string | null>(null);
+    const [cloudSaved, setCloudSaved] = useState<string | null>(null);
 
     useEffect(() => {
         setForm(getSettings());
@@ -111,6 +114,20 @@ export default function SettingsPage() {
         setPrompts(getCustomPrompts());
         if (form.selectedPromptId === id) {
             setForm((prev) => ({ ...prev, selectedPromptId: "default" }));
+        }
+    };
+
+    const handleCloudSave = async (prompt: CustomPrompt) => {
+        setCloudSaving(prompt.id);
+        setCloudSaved(null);
+        try {
+            await savePromptToCloud(prompt.name, prompt.text);
+            setCloudSaved(prompt.id);
+            setTimeout(() => setCloudSaved(null), 2000);
+        } catch (err) {
+            alert(err instanceof Error ? err.message : "クラウド保存に失敗しました");
+        } finally {
+            setCloudSaving(null);
         }
     };
 
@@ -218,12 +235,25 @@ export default function SettingsPage() {
                         {prompts.map((p) => (
                             <div key={p.id} className={styles.promptItem}>
                                 <span className={styles.promptName}>{p.name}</span>
-                                <button
-                                    className={styles.promptDeleteBtn}
-                                    onClick={() => handleDeletePrompt(p.id)}
-                                >
-                                    削除
-                                </button>
+                                <div className={styles.promptActions}>
+                                    <button
+                                        className={styles.cloudSaveBtn}
+                                        onClick={() => handleCloudSave(p)}
+                                        disabled={cloudSaving === p.id}
+                                    >
+                                        {cloudSaving === p.id
+                                            ? "⏳"
+                                            : cloudSaved === p.id
+                                                ? "✓ 共有済"
+                                                : "☁️ 共有"}
+                                    </button>
+                                    <button
+                                        className={styles.promptDeleteBtn}
+                                        onClick={() => handleDeletePrompt(p.id)}
+                                    >
+                                        削除
+                                    </button>
+                                </div>
                             </div>
                         ))}
                     </div>
