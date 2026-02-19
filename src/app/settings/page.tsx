@@ -11,19 +11,30 @@ import {
     deleteCustomPrompt,
     CustomPrompt,
 } from "@/lib/storage";
+import {
+    pickKeyFile,
+    saveKeyFileHandle,
+    loadKeyFileHandle,
+    clearKeyFileHandle,
+    readKeyFile,
+} from "@/lib/auth";
 import { getDefaultPromptText } from "@/lib/vertexai";
 import styles from "./page.module.css";
 
 const REGIONS = [
     { value: "asia-northeast1", label: "東京 (asia-northeast1)" },
-    { value: "asia-northeast2", label: "大阪 (asia-northeast2)" },
+    { value: "us-central1", label: "アイオワ (us-central1)" },
+];
+
+const MODELS = [
+    { value: "gemini-2.5-flash", label: "Gemini 2.5 Flash（高速）" },
+    { value: "gemini-2.5-pro", label: "Gemini 2.5 Pro（高精度）" },
 ];
 
 export default function SettingsPage() {
     const [form, setForm] = useState<Settings>({
-        apiKey: "",
-        projectId: "",
         region: "asia-northeast1",
+        model: "gemini-2.5-flash",
         selectedPromptId: "default",
     });
     const [saved, setSaved] = useState(false);
@@ -31,10 +42,25 @@ export default function SettingsPage() {
     const [newPromptName, setNewPromptName] = useState("");
     const [newPromptText, setNewPromptText] = useState("");
     const [showDefaultPrompt, setShowDefaultPrompt] = useState(false);
+    const [keyFileName, setKeyFileName] = useState<string>("");
+    const [keyStatus, setKeyStatus] = useState<string>("");
 
     useEffect(() => {
         setForm(getSettings());
         setPrompts(getCustomPrompts());
+
+        // Load saved key file handle
+        loadKeyFileHandle().then(async (handle) => {
+            if (handle) {
+                setKeyFileName(handle.name);
+                try {
+                    const key = await readKeyFile(handle);
+                    setKeyStatus(`✓ ${key.project_id}`);
+                } catch {
+                    setKeyStatus("⚠ ファイルを再選択してください");
+                }
+            }
+        });
     }, []);
 
     const handleChange = (
@@ -48,6 +74,26 @@ export default function SettingsPage() {
         saveSettings(form);
         setSaved(true);
         setTimeout(() => setSaved(false), 2000);
+    };
+
+    const handlePickKey = async () => {
+        const handle = await pickKeyFile();
+        if (handle) {
+            try {
+                const key = await readKeyFile(handle);
+                await saveKeyFileHandle(handle);
+                setKeyFileName(handle.name);
+                setKeyStatus(`✓ ${key.project_id}`);
+            } catch (err) {
+                setKeyStatus(err instanceof Error ? err.message : "エラー");
+            }
+        }
+    };
+
+    const handleClearKey = async () => {
+        await clearKeyFileHandle();
+        setKeyFileName("");
+        setKeyStatus("");
     };
 
     const handleAddPrompt = () => {
@@ -80,36 +126,31 @@ export default function SettingsPage() {
             <div className={styles.form}>
                 <h2 className={styles.sectionTitle}>Vertex AI 接続設定</h2>
 
+                {/* Key file picker */}
                 <div className={styles.field}>
                     <label className={styles.label}>
-                        API Key / Access Token
-                        <span className={styles.labelHint}> — Vertex AI の認証トークン</span>
+                        サービスアカウントキー
+                        <span className={styles.labelHint}> — key.json ファイルを選択</span>
                     </label>
-                    <input
-                        className={styles.input}
-                        type="password"
-                        name="apiKey"
-                        value={form.apiKey}
-                        onChange={handleChange}
-                        placeholder="AIza... / ya29...."
-                    />
+                    <div className={styles.keyFileRow}>
+                        <button className={styles.keyFileBtn} onClick={handlePickKey}>
+                            🔑 key.json を選択
+                        </button>
+                        {keyFileName && (
+                            <>
+                                <span className={styles.keyFileName}>{keyFileName}</span>
+                                <button className={styles.keyFileClear} onClick={handleClearKey}>
+                                    ✕
+                                </button>
+                            </>
+                        )}
+                    </div>
+                    {keyStatus && (
+                        <p className={styles.keyStatus}>{keyStatus}</p>
+                    )}
                 </div>
 
-                <div className={styles.field}>
-                    <label className={styles.label}>
-                        Project ID
-                        <span className={styles.labelHint}> — GCP プロジェクト ID</span>
-                    </label>
-                    <input
-                        className={styles.input}
-                        type="text"
-                        name="projectId"
-                        value={form.projectId}
-                        onChange={handleChange}
-                        placeholder="my-clinic-project"
-                    />
-                </div>
-
+                {/* Region */}
                 <div className={styles.field}>
                     <label className={styles.label}>リージョン</label>
                     <select
@@ -121,6 +162,23 @@ export default function SettingsPage() {
                         {REGIONS.map((r) => (
                             <option key={r.value} value={r.value}>
                                 {r.label}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+
+                {/* Model */}
+                <div className={styles.field}>
+                    <label className={styles.label}>AI モデル</label>
+                    <select
+                        className={styles.select}
+                        name="model"
+                        value={form.model}
+                        onChange={handleChange}
+                    >
+                        {MODELS.map((m) => (
+                            <option key={m.value} value={m.value}>
+                                {m.label}
                             </option>
                         ))}
                     </select>

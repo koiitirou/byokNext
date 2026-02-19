@@ -1,17 +1,15 @@
 /* ===== Settings ===== */
 export interface Settings {
-    apiKey: string;
-    projectId: string;
     region: string;
+    model: string;
     selectedPromptId: string; // "default" or custom prompt id
 }
 
 const SETTINGS_KEY = "byok-karte-settings";
 
 const DEFAULT_SETTINGS: Settings = {
-    apiKey: "",
-    projectId: "",
     region: "asia-northeast1",
+    model: "gemini-2.5-flash",
     selectedPromptId: "default",
 };
 

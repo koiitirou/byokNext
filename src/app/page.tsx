@@ -11,6 +11,7 @@ import {
     loadDirHandle,
 } from "@/lib/recorder";
 import { transcribeAndSummarize } from "@/lib/vertexai";
+import { loadKeyFileHandle, readKeyFile, getAccessToken } from "@/lib/auth";
 import { getSettings, saveSettings, addHistory, getCustomPrompts, CustomPrompt } from "@/lib/storage";
 import styles from "./page.module.css";
 
@@ -91,7 +92,16 @@ export default function Home() {
                 // Send to Vertex AI
                 const settings = getSettings();
                 const mimeType = blob.type || "audio/webm";
-                const summary = await transcribeAndSummarize(base64, mimeType, settings);
+
+                // Load key file and get access token
+                const keyHandle = await loadKeyFileHandle();
+                if (!keyHandle) {
+                    throw new Error("key.json が設定されていません。設定ページでサービスアカウントキーを選択してください。");
+                }
+                const saKey = await readKeyFile(keyHandle);
+                const accessToken = await getAccessToken(saKey);
+
+                const summary = await transcribeAndSummarize(base64, mimeType, settings, accessToken, saKey.project_id);
                 addHistory(summary);
                 setResult(summary);
                 setStage("done");
@@ -142,6 +152,9 @@ export default function Home() {
                 <div className={styles.headerRight}>
                     <Link href="/history" className={styles.iconBtn} title="履歴">
                         📋
+                    </Link>
+                    <Link href="/manual" className={styles.iconBtn} title="マニュアル">
+                        📖
                     </Link>
                     <Link href="/settings" className={styles.iconBtn} title="設定">
                         ⚙️

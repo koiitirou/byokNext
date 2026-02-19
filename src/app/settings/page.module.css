@@ -245,3 +245,56 @@
     opacity: 0.4;
     cursor: not-allowed;
 }
+
+/* Key file picker */
+.keyFileRow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.keyFileBtn {
+    padding: 10px 16px;
+    background: var(--bg-card);
+    border: 1px solid var(--primary);
+    border-radius: var(--radius);
+    font-size: 0.85rem;
+    color: var(--primary);
+    font-weight: 500;
+    transition: all var(--transition);
+    white-space: nowrap;
+}
+
+.keyFileBtn:hover {
+    background: var(--primary);
+    color: #fff;
+}
+
+.keyFileName {
+    font-size: 0.85rem;
+    color: var(--text);
+    font-weight: 500;
+}
+
+.keyFileClear {
+    padding: 4px 8px;
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    transition: all var(--transition);
+    line-height: 1;
+}
+
+.keyFileClear:hover {
+    border-color: var(--danger);
+    color: var(--danger);
+}
+
+.keyStatus {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin: 0;
+}

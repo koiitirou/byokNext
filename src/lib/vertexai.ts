@@ -25,16 +25,15 @@ function getPrompt(settings: Settings): string {
 export async function transcribeAndSummarize(
     audioBase64: string,
     mimeType: string,
-    settings: Settings
+    settings: Settings,
+    accessToken: string,
+    projectId: string
 ): Promise<string> {
-    if (!settings.apiKey) throw new Error("API Key が設定されていません。設定ページで入力してください。");
-    if (!settings.projectId) throw new Error("Project ID が設定されていません。設定ページで入力してください。");
+    const { region, model } = settings;
+    const modelId = model || "gemini-2.5-flash";
 
-    const { apiKey, projectId, region } = settings;
-    const model = "gemini-2.0-flash";
-
-    // Use Vertex AI REST endpoint directly from the browser
-    const endpoint = `https://${region}-aiplatform.googleapis.com/v1/projects/${projectId}/locations/${region}/publishers/google/models/${model}:generateContent`;
+    // Vertex AI REST endpoint
+    const endpoint = `https://${region}-aiplatform.googleapis.com/v1/projects/${projectId}/locations/${region}/publishers/google/models/${modelId}:generateContent`;
 
     const prompt = getPrompt(settings);
 
@@ -63,7 +62,7 @@ export async function transcribeAndSummarize(
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${apiKey}`,
+            Authorization: `Bearer ${accessToken}`,
         },
         body: JSON.stringify(body),
     });
