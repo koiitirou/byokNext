@@ -1,0 +1,152 @@
+.container {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 24px 16px;
+    min-height: 100vh;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.backBtn {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 8px 12px;
+    font-size: 1rem;
+    color: var(--text-muted);
+    transition: all var(--transition);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+.backBtn:hover {
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
+}
+
+.pageTitle {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+}
+
+.headerSpacer {
+    flex: 1;
+}
+
+.clearBtn {
+    padding: 8px 14px;
+    background: none;
+    border: 1px solid var(--danger);
+    border-radius: var(--radius);
+    color: var(--danger);
+    font-size: 0.8rem;
+    transition: all var(--transition);
+}
+
+.clearBtn:hover {
+    background: var(--danger);
+    color: #fff;
+}
+
+/* Empty */
+.empty {
+    text-align: center;
+    color: var(--text-muted);
+    padding: 64px 0;
+    font-size: 0.9rem;
+}
+
+.emptyIcon {
+    font-size: 3rem;
+    margin-bottom: 12px;
+    display: block;
+}
+
+/* List */
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 16px;
+    box-shadow: var(--shadow);
+    transition: border-color var(--transition);
+}
+
+.card:hover {
+    border-color: var(--primary);
+}
+
+.cardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.cardTime {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.deleteBtn {
+    padding: 4px 10px;
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    transition: all var(--transition);
+}
+
+.deleteBtn:hover {
+    border-color: var(--danger);
+    color: var(--danger);
+}
+
+.cardBody {
+    font-size: 0.85rem;
+    line-height: 1.8;
+    white-space: pre-wrap;
+    color: var(--text);
+    max-height: 200px;
+    overflow: hidden;
+    position: relative;
+}
+
+.cardBody.expanded {
+    max-height: none;
+    overflow: visible;
+}
+
+.expandBtn {
+    display: block;
+    width: 100%;
+    margin-top: 8px;
+    padding: 6px;
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 0.8rem;
+    color: var(--primary);
+    transition: all var(--transition);
+}
+
+.expandBtn:hover {
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
+}

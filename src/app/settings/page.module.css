@@ -1,0 +1,247 @@
+.container {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 24px 16px;
+    min-height: 100vh;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 32px;
+}
+
+.backBtn {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 8px 12px;
+    font-size: 1rem;
+    color: var(--text-muted);
+    transition: all var(--transition);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+.backBtn:hover {
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
+}
+
+.pageTitle {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+}
+
+/* Form */
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.label {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text);
+}
+
+.labelHint {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-weight: 300;
+}
+
+.input {
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 0.9rem;
+    background: var(--bg-card);
+    color: var(--text);
+    transition: border-color var(--transition);
+    font-family: inherit;
+}
+
+.input:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+.select {
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 0.9rem;
+    background: var(--bg-card);
+    color: var(--text);
+    transition: border-color var(--transition);
+    font-family: inherit;
+}
+
+.select:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+.textarea {
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 0.85rem;
+    background: var(--bg-card);
+    color: var(--text);
+    font-family: inherit;
+    min-height: 120px;
+    resize: vertical;
+    line-height: 1.6;
+    transition: border-color var(--transition);
+}
+
+.textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+.actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.saveBtn {
+    flex: 1;
+    padding: 14px;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius);
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: background var(--transition);
+}
+
+.saveBtn:hover {
+    background: var(--primary-dark);
+}
+
+.saved {
+    text-align: center;
+    padding: 10px;
+    color: var(--success);
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 8px 0;
+}
+
+.sectionTitle {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 4px;
+}
+
+/* Standard prompt toggle */
+.toggleBtn {
+    padding: 10px 14px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 0.85rem;
+    color: var(--primary);
+    transition: all var(--transition);
+    text-align: left;
+}
+
+.toggleBtn:hover {
+    border-color: var(--primary);
+}
+
+.promptPreview {
+    padding: 14px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 0.8rem;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    color: var(--text-muted);
+    max-height: 300px;
+    overflow-y: auto;
+    font-family: inherit;
+}
+
+/* Prompt list */
+.promptList {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.promptItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+
+.promptName {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text);
+}
+
+.promptDeleteBtn {
+    padding: 4px 10px;
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    transition: all var(--transition);
+}
+
+.promptDeleteBtn:hover {
+    border-color: var(--danger);
+    color: var(--danger);
+}
+
+/* Add prompt button */
+.addPromptBtn {
+    padding: 10px 14px;
+    background: var(--bg-card);
+    border: 1px solid var(--primary);
+    border-radius: var(--radius);
+    font-size: 0.85rem;
+    color: var(--primary);
+    font-weight: 500;
+    transition: all var(--transition);
+}
+
+.addPromptBtn:hover:not(:disabled) {
+    background: var(--primary);
+    color: #fff;
+}
+
+.addPromptBtn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
