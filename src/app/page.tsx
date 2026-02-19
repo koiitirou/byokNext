@@ -135,7 +135,7 @@ export default function Home() {
             <header className={styles.header}>
                 <div>
                     <h1 className={styles.title}>
-                        音声カルテ
+                        シャベカル
                         <span className={styles.titleSub}>BYOK Voice Karte</span>
                     </h1>
                 </div>
@@ -232,15 +232,7 @@ export default function Home() {
                 )}
             </div>
 
-            {/* Footer */}
-            <div className={styles.footerLinks}>
-                <Link href="/history" className={styles.footerLink}>
-                    📋 履歴一覧
-                </Link>
-                <Link href="/settings" className={styles.footerLink}>
-                    ⚙️ 設定
-                </Link>
-            </div>
+
         </div>
     );
 }
